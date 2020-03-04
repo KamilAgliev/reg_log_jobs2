@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<center>
+    <h3><em>Hello, {{current_user.name}} {{current_user.surname}}</em></h3>
+    <h3>Works log</h3>
+    {% for job in jobs%}
+    <h3>Action # {{loop.index}}</h3>
+    <table style="margin-left:40px;">
+        <tr bgcolor="#C8C9CA">
+            <th style="padding-right: 40px;">Title of activity</th>
+            <th style="padding-right: 40px;">Team leader</th>
+            <th style="padding-right: 40px;">Duration</th>
+            <th style="padding-right: 40px;">List of collaborators</th>
+            <th>is finished</th>
+        </tr>
+        <tr bgcolor="#E6E6FA">
+            <td style="padding-right: 40px;">{{job.job}}</td>
+            <td style="padding-right: 40px;">{{job.user.name}} {{job.user.surname}}</td>
+            <td style="padding-right: 40px;">{{job.work_size}}</td>
+            <td style="padding-right: 40px;">{{job.collaborators}}</td>
+            {%if job.is_finished%}
+            <td style="padding-right: 40px;color: green;">is finished</td>
+            {%else%}
+            <td style="padding-right: 40px;color: red;">is not finished</td>
+            {%endif%}
+        </tr>
+    </table>
+    {% if current_user.is_authenticated %}
+    <div>
+        <a href="/job/{{ job.id }}" class="btn btn-warning">Изменить</a>
+        <a href="/job_delete/{{ job.id }}" class="btn btn-danger">Удалить</a>
+    </div>
+{% endif %}
+    <br>
+{% endfor %}
+    <a class="btn btn-primary " href="/add_job">Добавить работу</a>
+</center>
+{% endblock %}

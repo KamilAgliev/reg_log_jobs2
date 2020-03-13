@@ -59,6 +59,15 @@
             </p>
         {% endfor %}
     </p>
+    <p>
+        {{ form.categories.label }}<br>
+        {{ form.categories(class="form-control") }}<br>
+        {% for error in form.categories.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
     <p>{{ form.is_finished() }} {{ form.is_finished.label }}</p>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}

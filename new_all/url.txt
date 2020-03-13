@@ -1,1 +1,1 @@
-https://github.com/KamilAgliev/reg_log_jobs2.git
+https://github.com/KamilAgliev/reg_log_jobs2/tree/master/new_all

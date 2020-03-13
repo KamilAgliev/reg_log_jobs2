@@ -118,7 +118,7 @@ class JobsForm(FlaskForm):
     collaborators = StringField('Участники', validators=[DataRequired()])
     start_date = StringField('Время начала работы', validators=[DataRequired()])
     end_date = StringField('Время конца работы', validators=[DataRequired()])
-    category = StringField('Категория работы', validators=[DataRequired()])
+    categories = StringField('Категория работы', validators=[DataRequired()])
     is_finished = BooleanField('Работа закончена?')
     submit = SubmitField('Отправить')
 
@@ -137,10 +137,10 @@ def add_job():
         job.end_date = form.end_date.data
         job.is_finished = form.is_finished.data
         job.creator = current_user.id
-        category = Category(
-            name=form.category.data
+        categories = Category(
+            name=form.categories.data
         )
-        job.categories.append(category)
+        job.categories.append(categories)
         s.add(job)
         s.commit()
         return redirect('/page')
@@ -162,6 +162,10 @@ def edit_job(id):
             form.start_date.data = job.start_date
             form.end_date.data = job.end_date
             form.is_finished.data = job.is_finished
+            for i in job.categories:
+                form.categories.data += i.name + ", "
+
+            form.categories.data = str(form.categories.data)[:-1]
         else:
             abort(404)
     if form.validate_on_submit():
@@ -177,6 +181,12 @@ def edit_job(id):
             job.start_date = form.start_date.data
             job.end_date = form.end_date.data
             job.is_finished = form.is_finished.data
+            for i in job.categories:
+                job.categories.remove(Category(name=i.name))
+            categories = Category(
+                name=form.categories.data
+            )
+            job.categories.append(categories)
             session.add(job)
             session.commit()
             return redirect('/page')
@@ -281,5 +291,5 @@ def departments_delete(id):
 if __name__ == "__main__":
     db_session.global_init('db/baza.sqlite')
     se = db_session.create_session()
-    job = se.query(Jobs).first()
+    job = se.query(Jobs).filter(Jobs.work_size == 45).first()
     app.run()

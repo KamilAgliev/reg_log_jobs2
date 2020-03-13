@@ -60,9 +60,9 @@
         {% endfor %}
     </p>
     <p>
-        {{ form.category.label }}<br>
-        {{ form.category(class="form-control") }}<br>
-        {% for error in form.category.errors %}
+        {{ form.categories.label }}<br>
+        {{ form.categories(class="form-control") }}<br>
+        {% for error in form.categories.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>

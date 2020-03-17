@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<center>
+    <a class="btn btn-primary " href="/page">Назад, к работам</a>
+    <h3>List of Departments</h3>
+    {% for department in departments%}
+    <h3>Department # {{loop.index}}</h3>
+    <table style="margin-left:40px;">
+        <tr bgcolor="#C8C9CA">
+            <th style="padding-right: 40px;">Title of Department</th>
+            <th style="padding-right: 40px;">Chief</th>
+            <th style="padding-right: 40px;">Members</th>
+            <th style="padding-right: 40px;">Department's email</th>
+        </tr>
+        <tr bgcolor="#E6E6FA">
+            <td style="padding-right: 40px;">{{department.title}}</td>
+            <td style="padding-right: 40px;">{{department.departments_leader.name}} {{department.departments_leader.surname}}</td>
+            <td style="padding-right: 40px;">{{department.members}}</td>
+            <td style="padding-right: 40px;">{{department.email}}</td>
+        </tr>
+    </table>
+    {% if current_user.is_authenticated %}
+    <div>
+        <a href="/departments/{{department.id}}" class="btn btn-warning">Изменить</a>
+        <a href="/departments_delete/{{department.id}}" class="btn btn-danger">Удалить</a>
+    </div>
+    {% endif %}
+    <br>
+    {% endfor %}
+    <a class="btn btn-primary " href="/add_department">Добавить Департамент</a>
+</center>
+{% endblock %}
